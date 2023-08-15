@@ -1,0 +1,11 @@
+only need name and location
+
+
+locations:
+	parse()
+	return list of name+abbr
+
+names:
+	searchOne
+	searchAllButOne
+	(searchFallback uses searchSpecific)

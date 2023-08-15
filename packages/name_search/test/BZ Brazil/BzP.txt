@@ -1,0 +1,20 @@
+ 364
+ 364 = part of a longer name
+/Placido de Castro
+/Placido de Castro = part of a longer name
+0 Bairro Abacaterral
+0 Bairro Abacaterral, Casa, Mâncio Lima, Acre
+0 Bairro Maloquinha
+0 Bairro Maloquinha, Casa, Mâncio Lima, Acre
+0 Bairro Maloquinha, Mâncio Lima, Acre
+0 Comunidade Republica
+0 Comunidade Republica, Casa, Mâncio Lima, Acre
+0 Comunidade Republica, Mâncio Lima, Acre
+0 Estrada Br 364
+0 Estrada Br 364, Casa, Cruzeiro Do Sul, Acre
+0 Estrada Dias Martins
+0 Estrada Dias Martins, Chacara, Rio Branco, Acre
+0 Estrada Do Barao
+0 Estrada Do Barao, Mâncio Lima, Acre
+0 Ramal Carlinho
+                                        The more indented the higher in sorting order!

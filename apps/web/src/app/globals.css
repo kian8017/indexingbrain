@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  h1 {
+    @apply text-3xl font-bold;
+  }
+  h2 {
+    @apply text-2xl font-semibold;
+  }
+  h3 {
+    @apply text-xl;
+  }
+  h4 {
+    @apply text-lg;
+  }
+  h5 {
+    @apply text-base;
+  }
+  h6 {
+    @apply text-sm;
+  }
+
+  hr {
+    @apply mx-16 my-4 border-2 border-secondary/50 rounded;
+  }
+  p {
+    @apply text-xl;
+  }
+  main ul {
+    @apply ml-4 list-inside list-disc text-xl;
+  }
+  main ol {
+    @apply ml-4 list-inside list-decimal text-xl;
+  }
+  main a {
+    @apply text-xl underline link link-secondary link-hover visited:link-accent;
+  }
+}
+
+:root,
+html,
+body {
+  top: 0;
+  bottom: 0;
+  min-height: 100vh;
+  width: 100%;
+}

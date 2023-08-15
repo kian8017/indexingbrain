@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`locations should correctly parse the test folder 1`] = `
+[
+  {
+    "abbr": "AFG",
+    "name": "Afghanistan",
+    "path": "/Users/kian/indexingbrain/backend_name_search/test/AFG Afghanistan",
+  },
+  {
+    "abbr": "BZ",
+    "name": "Brazil",
+    "path": "/Users/kian/indexingbrain/backend_name_search/test/BZ Brazil",
+  },
+  {
+    "abbr": "SPSH",
+    "name": "Spanish",
+    "path": "/Users/kian/indexingbrain/backend_name_search/test/SPSH Spanish",
+  },
+]
+`;
