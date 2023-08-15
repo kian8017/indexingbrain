@@ -16,6 +16,10 @@ dotenv.config({
   path: path.resolve(__dirname, '../.env'),
 });
 
+// GitHub Codespaces rewrites the port-forwarded requests, so this is needed,
+//     even though technically the app isn't being accessed at 'localhost:<PORT>'
+const secureLocalAddr = `https://localhost:${process.env.PAYLOAD_PUBLIC_PORT}`;
+
 export default buildConfig({
   serverURL: process.env.PAYLOAD_PUBLIC_ADDRESS,
   admin: {
@@ -31,6 +35,7 @@ export default buildConfig({
     Images,
     FrequentlyAskedQuestions,
   ],
+  csrf: [secureLocalAddr, ...process.env.PAYLOAD_PUBLIC_FRONTEND_ADDRESS.split(",")],
   globals: [Message],
   typescript: {
     outputFile: path.resolve(__dirname, "payload-types.ts"),
