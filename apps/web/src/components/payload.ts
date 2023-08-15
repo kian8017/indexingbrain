@@ -1,6 +1,3 @@
-// time a request is valid (before re-requesting)
-const REVALIDATE_TIME: number = 10;
-
 class PayloadFetch {
   private payloadHost: string;
   private authToken: string;
@@ -20,9 +17,7 @@ class PayloadFetch {
         authorization: this.isLoggedIn ? `JWT ${this.authToken}` : "",
       },
       body: JSON.stringify(body),
-      next: {
-        revalidate: REVALIDATE_TIME,
-      },
+      cache: "no-cache",
     });
   }
 
