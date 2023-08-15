@@ -1,4 +1,4 @@
-const payloadUrl = new URL(process.env.PAYLOAD_ADDRESS);
+const payloadUrl = new URL(process.env.NEXT_PUBLIC_PAYLOAD_ADDRESS);
 
 /** @type {import('next').NextConfig} */
 
