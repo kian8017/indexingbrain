@@ -39,7 +39,6 @@ class PayloadFetch {
   }
 
   async request(partialUrl: string, body: any, method: string) {
-    console.log("REQUEST", partialUrl, this.payloadHost);
     let resp = await this._sendRequest(partialUrl, body, method);
     if (resp.status === 403) {
       console.log("forbidden, logging in");
