@@ -11,6 +11,11 @@ import Message from "./globals/Message";
 import Images from "./collections/Images";
 import FrequentlyAskedQuestions from "./collections/FrequentlyAskedQuestions";
 
+import dotenv from "dotenv";
+dotenv.config({
+  path: path.resolve(__dirname, '../.env'),
+});
+
 export default buildConfig({
   serverURL: process.env.PAYLOAD_PUBLIC_ADDRESS,
   admin: {
