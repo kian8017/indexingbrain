@@ -16,4 +16,8 @@ async function parseLocations(rootFolder) {
     });
 }
 
-export { parseLocations };
+async function getFileName(){
+  return "/workspaces/indexingbrain/packages/name_search/test/SPSH Spanish/SpshO.txt";
+};
+
+export { parseLocations, getFileName };
