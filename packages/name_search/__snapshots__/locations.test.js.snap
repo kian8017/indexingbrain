@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`locations should correctly parse the test folder 1`] = `
+exports[`parseLocations should correctly parse the test folder 1`] = `
 [
   {
     "abbr": "AFG",

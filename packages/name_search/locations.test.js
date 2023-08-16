@@ -1,7 +1,7 @@
 import { describe, it, expect } from "@jest/globals";
 import { parseLocations } from "./locations";
 
-describe("locations", () => {
+describe("parseLocations", () => {
   it("should correctly parse the test folder", async () => {
     const testFolder = new URL("test", import.meta.url);
     const locations = await parseLocations(testFolder);
