@@ -1,13 +1,6 @@
 import { readdir } from "fs/promises";
-import { join } from "path";
 
-type Location = {
-  name: string;
-  abbr: string;
-  path: string;
-};
-
-async function parseLocations(rootFolder: string): Promise<Location[]> {
+async function parseLocations(rootFolder) {
   const fsEntries = await readdir(rootFolder, { withFileTypes: true });
   return fsEntries
     .filter((entry) => entry.isDirectory())
@@ -18,7 +11,7 @@ async function parseLocations(rootFolder: string): Promise<Location[]> {
       return {
         name,
         abbr,
-        path: join(rootFolder, entry.name),
+        folder: entry.name,
       };
     });
 }
