@@ -15,6 +15,9 @@ describe("parseLocations", () => {
 describe("getFileName", () => {
   it("should correctly return file name", async () => {
     const spanishOtherFileName = path.join(TEST_FOLDER, "./SPSH Spanish/SpshO.txt")
+    const spanishNamesFileName = path.join(TEST_FOLDER, "./SPSH Spanish/SpshN.txt")
     await expect(getFileName(TEST_FOLDER, "SPSH", "other")).resolves.toBe(spanishOtherFileName);
+    await expect(getFileName(TEST_FOLDER, "SPSH", "names")).resolves.toBe(spanishNamesFileName);
   });
+
 });

@@ -1,4 +1,5 @@
 import { readdir } from "fs/promises";
+import path from "path";
 
 async function parseLocations(rootFolder) {
   const fsEntries = await readdir(rootFolder, { withFileTypes: true });
@@ -16,8 +17,26 @@ async function parseLocations(rootFolder) {
     });
 }
 
-async function getFileName(){
-  return "/workspaces/indexingbrain/packages/name_search/test/SPSH Spanish/SpshO.txt";
+function _getEntryTypeAbbr(entryType) {
+  switch (entryType) {
+    case "names":
+      return "N";
+    case "places":
+      return "P";
+    case "other":
+      return "O";
+    default:
+      throw new Error(`unknown entry type '${entryType}'`)
+  }
+}
+
+async function getFileName(rootFolder, locationAbbr, entryType){
+  const locations = await parseLocations(rootFolder);
+
+  const foundLoc = locations.filter(l => l.abbr === locationAbbr)[0];
+
+  const fileName = locationAbbr[0].toUpperCase() + locationAbbr.slice(1).toLowerCase() + _getEntryTypeAbbr(entryType) + ".txt";
+  return path.join(rootFolder, foundLoc.folder, fileName);
 };
 
 export { parseLocations, getFileName };
