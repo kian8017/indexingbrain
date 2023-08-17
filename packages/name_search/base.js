@@ -51,6 +51,13 @@ const NOT_IMPLEMENTED = new Error("not implemented on NameSearchBase");
 
 export class NameSearchBase {
   /**
+   * Performs any necessary initialization
+   */
+  async init() {
+    throw NOT_IMPLEMENTED;
+  }
+
+  /**
    * Returns a list of entry types (name, place, other, etc)
    * @returns {EntryType[]}
    */
