@@ -1,5 +1,5 @@
 import { readdir } from "fs/promises";
-import { NameSearchBase } from "./base";
+import { MAX_RESULTS, NameSearchBase } from "./base";
 
 export class NameSearchDirs extends NameSearchBase {
   #rootDir;
@@ -33,5 +33,9 @@ export class NameSearchDirs extends NameSearchBase {
           name: pieces.slice(1).join(" "),
         };
       });
+  }
+
+  async searchOne(abbr, type, query, maxResults = MAX_RESULTS) {
+    throw new Error("invalid entryType");
   }
 }

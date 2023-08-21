@@ -43,4 +43,25 @@ describe("NameSearchDirs", () => {
       }
     });
   });
+
+  describe("searchOne", () => {
+    let NSD;
+
+    beforeEach(async () => {
+      NSD = new NameSearchDirs(TEST_FOLDER);
+      await NSD.init();
+    });
+
+    afterEach(() => {
+      NSD = undefined;
+    });
+
+    it("should throw an error for invalid entry type", async () => {
+      await expect(() => NSD.searchOne()).rejects.toThrow("invalid entryType");
+    });
+
+    it("should throw an error for an invalid abbreviation", async () => {
+      await expect;
+    });
+  });
 });
