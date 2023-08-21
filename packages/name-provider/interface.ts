@@ -1,4 +1,8 @@
-export type NameType = string;
+export type NameTypeName = string;
+export type NameType = {
+  name: NameTypeName;
+  abbr: string;
+};
 
 export type Loc = {
   name: string;
@@ -8,17 +12,21 @@ export type Loc = {
 export type Name = {
   locAbbr: string;
   content: string;
-  type: NameType;
+  type: NameTypeName;
 };
 
 export interface NameProvider {
-  getNameTypes: () => NameType[];
-  getLocations: () => Loc[];
+  getNameTypes: () => Promise<NameType[]>;
+  getLocations: () => Promise<Loc[]>;
   searchOneLoc: (
     locAbbr: string,
-    type: NameType,
+    type: NameTypeName,
     query: string,
     maxResults: number
-  ) => Name[];
-  searchAllLocs: (type: NameType, query: string, maxResults: number) => Name[];
+  ) => Promise<Name[]>;
+  searchAllLocs: (
+    type: NameTypeName,
+    query: string,
+    maxResults: number
+  ) => Promise<Name[]>;
 }
