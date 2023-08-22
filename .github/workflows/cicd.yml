@@ -1,0 +1,8 @@
+name: "CI/CD"
+on: [push]
+jobs:
+  deployment:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "this is a test, code is at ${{github.workspace}}"
+      - run: echo "status is ${{job.status}}"
