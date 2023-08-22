@@ -1,3 +1,4 @@
+/*
 "use client";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -12,3 +13,4 @@ const carouselOptions = {
 export default function ClientCarousel({ pairs }: { pairs: ReactNode[] }) {
   return <Slider {...carouselOptions}>{pairs}</Slider>;
 }
+*/

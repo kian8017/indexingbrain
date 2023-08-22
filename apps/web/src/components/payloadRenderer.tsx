@@ -1,3 +1,4 @@
+/*
 import Link from "next/link";
 
 type RendererProps = {
@@ -78,3 +79,4 @@ export default function PayloadRenderer({ nodes }: RendererProps) {
   });
   return <>{rendered}</>;
 }
+*/

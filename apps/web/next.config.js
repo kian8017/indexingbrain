@@ -1,3 +1,4 @@
+/*
 const publicPayloadAddress = process.env.NEXT_PUBLIC_PAYLOAD_ADDRESS;
 
 if (publicPayloadAddress === undefined) {
@@ -5,9 +6,10 @@ if (publicPayloadAddress === undefined) {
 }
 
 const payloadUrl = new URL(publicPayloadAddress);
-
+*/
 /** @type {import('next').NextConfig} */
 
+/*
 const nextConfig = {
   images: {
     remotePatterns: [
@@ -21,4 +23,6 @@ const nextConfig = {
   },
 };
 
+*/
+const nextConfig = {};
 module.exports = nextConfig;

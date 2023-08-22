@@ -1,5 +1,5 @@
-import request from "@/components/payload";
-import PayloadRenderer from "@/components/payloadRenderer";
+//import request from "@/components/payload";
+//import PayloadRenderer from "@/components/payloadRenderer";
 
 type SlugPageParams = {
   params: {
@@ -8,6 +8,7 @@ type SlugPageParams = {
 };
 
 export default async function SlugPage({ params }: SlugPageParams) {
+  /*
   const queryUrl = `/api/pages?where[slug][equals]=${params.slug}`;
   const resp = await request(queryUrl, undefined, "GET");
   if (resp.docs.length !== 1) {
@@ -26,4 +27,6 @@ export default async function SlugPage({ params }: SlugPageParams) {
       </div>
     );
   }
+  */
+  return <div>PAGE</div>;
 }

@@ -1,3 +1,4 @@
+/*
 class PayloadFetch {
   private payloadHost: string;
   private authToken: string;
@@ -56,3 +57,4 @@ const Payload = new PayloadFetch(process.env.NEXT_PUBLIC_PAYLOAD_ADDRESS!);
 
 const request = Payload.request.bind(Payload);
 export default request;
+*/

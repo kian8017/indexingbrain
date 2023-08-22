@@ -1,3 +1,4 @@
+/*
 import FAQClient from "./faq.client";
 import request from "./payload";
 
@@ -12,3 +13,4 @@ export default async function FAQServer() {
   }) as QA[];
   return <FAQClient questions={QAs} />;
 }
+*/

@@ -1,3 +1,4 @@
+/*
 import Image from "next/image";
 import ClientCarousel from "./carousel.client";
 import request from "./payload";
@@ -36,3 +37,4 @@ export default async function Carousel() {
     </div>
   );
 }
+*/

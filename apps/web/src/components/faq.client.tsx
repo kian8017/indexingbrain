@@ -1,3 +1,4 @@
+/*
 "use client";
 type FAQClientProps = {
   questions: QA[];
@@ -24,3 +25,4 @@ export default function FAQClient(props: FAQClientProps) {
     </div>
   );
 }
+*/
