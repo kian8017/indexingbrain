@@ -1,0 +1,3 @@
+server:
+  # put the ip of the droplet created by create-droplet.yml here
+  hosts: 123.45.67.89
