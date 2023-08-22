@@ -1,0 +1,44 @@
+---
+# run this playbook once to create the droplet
+- name: "Create DigitalOcean droplet"
+  hosts: "localhost"
+
+  vars:
+    public_ssh_key_file: "{{ lookup('ansible.builtin.env', 'PUBLIC_SSH_KEY_FILE') }}"
+    do_token: "{{ lookup('ansible.builtin.env', 'DO_TOKEN') }}"
+    do_size: "s-1vcpu-512mb-10gb"
+    do_region: "sfo3"
+    do_image: "ubuntu-22-04-x64"
+    do_name: "indexing-brain"
+
+  tasks:
+    - name: "Assert that token and ssh key path are set"
+      ansible.builtin.assert:
+        that:
+          - "'{{ do_token }}' | length > 0"
+          - "'{{ public_ssh_key_file }}' | length > 0"
+
+    - name: "Ensure the SSH key has been added to DigitalOcean"
+      community.digitalocean.digital_ocean_sshkey:
+        state: present
+        ssh_pub_key: "{{ lookup('ansible.builtin.file', public_ssh_key_file) }}"
+        api_token: "{{ do_token }}"
+        name: "Ansible for the Indexing-Brain"
+      register: registered_ssh_key
+
+    - name: "Ensure the Indexing-Brain droplet is created"
+      community.digitalocean.digital_ocean_droplet:
+        state: active
+        name: "{{ do_name }}"
+        api_token: "{{ do_token }}"
+        size: "{{ do_size }}"
+        region: "{{ do_region }}"
+        image: "{{ do_image }}"
+        unique_name: true
+        ssh_keys:
+          - "{{ registered_ssh_key.data.ssh_key.fingerprint }}"
+      register: droplet_creation_result
+
+    - name: "Debug -- print result of droplet creation"
+      ansible.builtin.debug:
+        msg: "Droplet present with ip of {{ (droplet_creation_result.data.droplet.networks.v4 | selectattr('type', 'equalto', 'public')).0.ip_address }}"
