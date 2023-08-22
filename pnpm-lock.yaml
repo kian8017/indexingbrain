@@ -115,6 +115,12 @@ importers:
       '@jest/globals':
         specifier: ^29.6.2
         version: 29.6.2
+      '@tsconfig/node18':
+        specifier: ^18.2.0
+        version: 18.2.0
+      '@tsconfig/strictest':
+        specifier: ^2.0.1
+        version: 2.0.1
       '@types/jest':
         specifier: ^29.5.3
         version: 29.5.3
@@ -2718,6 +2724,14 @@ packages:
 
   /@tsconfig/node16@1.0.4:
     resolution: {integrity: sha512-vxhUy4J8lyeyinH7Azl1pdd43GJhZH/tP2weN8TntQblOY+A0XbT8DJk1/oCPuOOyg/Ja757rG0CgHcWC8OfMA==}
+    dev: true
+
+  /@tsconfig/node18@18.2.0:
+    resolution: {integrity: sha512-yhxwIlFVSVcMym3O31HoMnRXpoenmpIxcj4Yoes2DUpe+xCJnA7ECQP1Vw889V0jTt/2nzvpLQ/UuMYCd3JPIg==}
+    dev: true
+
+  /@tsconfig/strictest@2.0.1:
+    resolution: {integrity: sha512-7JHHCbyCsGUxLd0pDbp24yz3zjxw2t673W5oAP6HCEdr/UUhaRhYd3SSnUsGCk+VnPVJVA4mXROzbhI+nyIk+w==}
     dev: true
 
   /@turbo/gen@1.9.7(@types/node@20.5.1)(typescript@5.1.6):
