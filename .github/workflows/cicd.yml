@@ -1,8 +1,48 @@
-name: "CI/CD"
+name: "CICD"
 on: [push]
 jobs:
   deployment:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "this is a test, code is at ${{github.workspace}}"
-      - run: echo "status is ${{job.status}}"
+      - name: check out repository
+        uses: actions/checkout@v3
+
+      - name: set up pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: set up node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: "pnpm"
+
+      - name: set up python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: install ansible
+        run: pip install ansible
+
+      - name: install dependencies
+        run: pnpm install
+
+      - name: run tests
+        run: pnpm test
+
+      - name: build
+        run: pnpm build
+
+      - name: "FIXME: add build steps"
+        run: "echo 'FIXME: ADD BUILD STEPS'"
+
+      - name: Run deployment playbook
+        uses: dawidd6/action-ansible-playbook@v2
+        with:
+          playbook: "devops/configure-droplet.yml"
+          key: "${{ secrets.ANSIBLE_SSH_PRIVATE_KEY }}"
+          inventory: |
+            [server]
+            ${{ secrets.ANSIBLE_SSH_IB_HOST }}
