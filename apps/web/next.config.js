@@ -1,4 +1,10 @@
-const payloadUrl = new URL(process.env.NEXT_PUBLIC_PAYLOAD_ADDRESS);
+const publicPayloadAddress = process.env.NEXT_PUBLIC_PAYLOAD_ADDRESS;
+
+if (publicPayloadAddress === undefined) {
+  throw new Error("NEXT_PUBLIC_PAYLOAD_ADDRESS is not defined");
+}
+
+const payloadUrl = new URL(publicPayloadAddress);
 
 /** @type {import('next').NextConfig} */
 
