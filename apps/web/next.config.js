@@ -7,7 +7,8 @@ if (publicPayloadAddress === undefined) {
 
 const payloadUrl = new URL(publicPayloadAddress);
 */
-/** @type {import('next').NextConfig} */
+
+const path = require("path");
 
 /*
 const nextConfig = {
@@ -24,7 +25,12 @@ const nextConfig = {
 };
 
 */
+
+/** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'standalone'
+  output: "standalone",
+  experimental: {
+    outputFileTracingRoot: path.join(__dirname, "../../"),
+  },
 };
 module.exports = nextConfig;
