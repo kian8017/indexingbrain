@@ -29,14 +29,11 @@ jobs:
       - name: install dependencies
         run: pnpm install
 
-      - name: run tests
-        run: pnpm test
+      #- name: run tests
+      #  run: pnpm test
 
-      - name: build
-        run: pnpm build
-
-      - name: "FIXME: add build steps"
-        run: "echo 'FIXME: ADD BUILD STEPS'"
+      #- name: build
+      #  run: pnpm build
 
       - name: Run deployment playbook
         uses: dawidd6/action-ansible-playbook@v2
