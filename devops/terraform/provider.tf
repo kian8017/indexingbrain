@@ -9,12 +9,12 @@ terraform {
 
 variable "do_token" {}
 variable "domain" {}
-variable "pvt_key" {}
+variable "ssh_key_name" {}
 
 provider "digitalocean" {
   token = var.do_token
 }
 
 data "digitalocean_ssh_key" "terraform" {
-  name = "Ansible for the Indexing-Brain"
+  name = var.ssh_key_name
 }
