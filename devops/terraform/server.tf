@@ -15,3 +15,7 @@ resource "digitalocean_droplet" "ib-server" {
     timeout = "2m"
   }
 }
+
+resource "digitalocean_domain" "default" {
+  name = "indexbrain.org"
+}
