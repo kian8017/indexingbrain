@@ -4,7 +4,7 @@ resource "digitalocean_droplet" "ib-server" {
   region = "sfo3"
   size = "s-1vcpu-512mb-10gb"
   ssh_keys = [
-    data.digitalocean_ssh_key.terraform.id
+    digitalocean_ssh_key.main-key.fingerprint
   ]
 }
 
