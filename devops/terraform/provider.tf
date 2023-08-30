@@ -8,6 +8,7 @@ terraform {
 }
 
 variable "do_token" {}
+variable "domain" {}
 variable "pvt_key" {}
 
 provider "digitalocean" {
