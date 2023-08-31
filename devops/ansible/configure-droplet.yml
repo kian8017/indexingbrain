@@ -4,6 +4,7 @@
   remote_user: root
   vars:
     ubuntu_release: jammy
+    ansible_host_key_checking: false
 
   tasks:
     - name: Update apt cache and upgrade packages
