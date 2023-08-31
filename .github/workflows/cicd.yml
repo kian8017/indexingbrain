@@ -1,0 +1,85 @@
+name: "CICD"
+on: [push]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "check out repository"
+        uses: "actions/checkout@v3"
+
+      - name: "install node.js, pnpm, and dependencies"
+        uses: "./.github/actions/install-all-js-deps"
+
+      - name: "run tests"
+        run: "pnpm test"
+
+  #  build:
+  #    needs: [test]
+  #    runs-on: ubuntu-latest
+  #    steps:
+  #      - name: "check out repository"
+  #        uses: "actions/checkout@v3"
+  #
+  #      - name: "install node.js, pnpm, and dependencies"
+  #        uses: "./.github/actions/install-all-js-deps"
+  #
+  #      - name: "build"
+  #        run: "pnpm build"
+
+  # FIXME: add build dependency
+  deploy-terraform-and-ansible:
+    needs: [test]
+    runs-on: ubuntu-latest
+    steps:
+      - name: check out repository
+        uses: actions/checkout@v3
+
+      - name: "set up terraform"
+        uses: "hashicorp/setup-terraform@v2"
+        with:
+          cli_config_credentials_token: "${{ secrets.TF_CLOUD_API_TOKEN }}"
+
+      - name: "set up .terraform/providers cache"
+        uses: "actions/cache@v3"
+        with:
+          path: devops/terraform/.terraform/providers
+          key: ib-terraform-providers-dir
+
+      - name: "initialize terraform"
+        run: terraform init -input=false
+        working-directory: ./devops/terraform
+
+      - name: "create ssh files"
+        run: |
+          echo "${{ secrets.TF_SSH_PUBLIC_KEY }}" >/tmp/ssh.public
+          echo "${{ secrets.TF_SSH_PRIVATE_KEY }}" >/tmp/ssh.private
+          chmod 0600 /tmp/ssh.public /tmp/ssh.private
+
+      # cache ansible inventory file so that terraform reports the correct number of changes
+      - name: "cache ansible inventory file"
+        uses: actions/cache@v3
+        with:
+          path: devops/ansible/hosts.yml
+          key: ib-ansible-dynamic-inventory
+
+      - name: "apply terraform"
+        run: terraform apply -input=false -auto-approve
+        working-directory: ./devops/terraform
+        env:
+          TF_VAR_domain: "${{ secrets.TF_DOMAIN }}"
+          TF_VAR_do_token: "${{ secrets.TF_DO_TOKEN }}"
+          TF_VAR_ssh_public_key_file: "/tmp/ssh.public"
+          TF_VAR_ssh_private_key_file: "/tmp/ssh.private"
+
+      - name: set up python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+          cache: "pip"
+
+      - name: install ansible
+        run: pip install -r ./devops/ansible/requirements.txt
+
+      - name: run playbook
+        run: ./run-playbook.sh configure-droplet.yml
+        working-directory: ./devops/ansible
