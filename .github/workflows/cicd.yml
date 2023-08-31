@@ -13,22 +13,33 @@ jobs:
       - name: "run tests"
         run: "pnpm test"
 
-  #  build:
-  #    needs: [test]
-  #    runs-on: ubuntu-latest
-  #    steps:
-  #      - name: "check out repository"
-  #        uses: "actions/checkout@v3"
-  #
-  #      - name: "install node.js, pnpm, and dependencies"
-  #        uses: "./.github/actions/install-all-js-deps"
-  #
-  #      - name: "build"
-  #        run: "pnpm build"
-
-  # FIXME: add build dependency
-  deploy-terraform-and-ansible:
+  build-web:
     needs: [test]
+    runs-on: ubuntu-latest
+    env:
+      IMAGE_NAME: "ghcr.io/kian8017/ib-web:${{ github.sha }}"
+    steps:
+      - name: "check out repository"
+        uses: "actions/checkout@v3"
+
+      - name: "install node.js, pnpm, and dependencies"
+        uses: "./.github/actions/install-all-js-deps"
+
+      - name: "build docker image"
+        run: "docker build -t $IMAGE_NAME -f apps/web/Dockerfile ."
+
+      - name: "login to ghcr"
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: "push docker image"
+        run: docker push $IMAGE_NAME
+
+  deploy-terraform-and-ansible:
+    needs: [test, build-web]
     runs-on: ubuntu-latest
     steps:
       - name: check out repository

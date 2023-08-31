@@ -28,6 +28,7 @@ ENV NEXT_TELEMETRY_DISABLED 1
 RUN pnpm exec turbo run build --filter=web...
  
 FROM base AS runner
+LABEL org.opencontainers.image.source="https://github.com/kian8017/indexingbrain"
 WORKDIR /app
  
 # Don't run production as root
