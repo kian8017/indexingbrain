@@ -5,17 +5,20 @@ terraform {
       version = "~> 2.0"
     }
   }
+
+  cloud {
+    organization = "kian8017"
+
+    workspaces {
+      name = "ib"
+    }
+  }
 }
 
 variable "do_token" {}
 variable "domain" {}
-variable "ssh_public_key_file" {
-  description = "path to the public ssh key (ends with .pub)"
-}
-
-variable "ssh_private_key_file" {
-  description = "path to the private ssh key"
-}
+variable "ssh_public_key_file" {}
+variable "ssh_private_key_file" {}
 
 provider "digitalocean" {
   token = var.do_token
