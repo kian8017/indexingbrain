@@ -1,6 +1,0 @@
-version: "3.8"
-services:
-  frontend:
-    image: ghcr.io/kian8017/ib-web:9c119e759498994a2323cc048a00253713b8cbdb
-    ports:
-      - "3000:3000"

@@ -44,9 +44,12 @@
         state: present
         update_cache: true
 
-    - name: Install docker python package for use by Ansible
+    - name: Install docker python packages for use by Ansible
       ansible.builtin.pip:
-        name: docker
+        name:
+          - docker
+          - jsondiff
+          - pyyaml
 
     - name: Check if reboot needed
       ansible.builtin.stat:

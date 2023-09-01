@@ -1,0 +1,31 @@
+---
+- name: Deploy Docker
+  hosts: server
+  remote_user: root
+  vars:
+    ansible_host_key_checking: false
+    deploy_commit: "{{lookup('ansible.builtin.env', 'DEPLOY_COMMIT')}}"
+
+  tasks:
+    - name: Ensure deploy_commit is defined
+      ansible.builtin.fail:
+        msg: "deploy_commit is not set properly (expecting long commit hash, got '{{deploy_commit}}')"
+      when: "deploy_commit |length != 40"
+
+    - name: Ensure docker is running in swarm mode
+      community.docker.docker_swarm:
+        state: present
+        advertise_addr: 127.0.0.1
+
+    - name: Fill in docker stack template and copy over
+      ansible.builtin.template:
+        src: ../docker/docker-stack.yml.j2
+        dest: /opt/docker-stack.yml
+
+    - name: Deploy docker stack
+      community.docker.docker_stack:
+        state: present
+        name: ib
+        prune: true
+        compose:
+          - /opt/docker-stack.yml
