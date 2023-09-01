@@ -91,6 +91,8 @@ jobs:
       - name: install ansible
         run: pip install -r ./devops/ansible/requirements.txt
 
-      - name: run playbook
-        run: ./run-playbook.sh configure-droplet.yml
+      - name: run playbooks
+        run: ./run-playbook.sh configure-droplet.yml deploy-docker.yml
         working-directory: ./devops/ansible
+        env:
+          DEPLOY_COMMIT: "${{ github.sha }}"
