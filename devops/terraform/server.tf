@@ -2,7 +2,7 @@ resource "digitalocean_droplet" "ib-server" {
   image = "ubuntu-22-04-x64"
   name = "ib-server"
   region = "sfo3"
-  size = "s-1vcpu-512mb-10gb"
+  size = "s-1vcpu-1gb-intel"
   ssh_keys = [
     digitalocean_ssh_key.main-key.fingerprint
   ]
