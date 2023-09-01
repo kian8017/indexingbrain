@@ -25,6 +25,10 @@ jobs:
       - name: "install node.js, pnpm, and dependencies"
         uses: "./.github/actions/install-all-js-deps"
 
+      - name: "update version"
+        run: ./update.version.sh "${{ github.sha }}"
+        working-directory: ./apps/web
+
       - name: "build docker image"
         run: "docker build -t $IMAGE_NAME -f apps/web/Dockerfile ."
 
