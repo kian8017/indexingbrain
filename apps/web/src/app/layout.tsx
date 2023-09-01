@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { StrictMode } from "react";
 import Logo from "../components/logo";
 import Link from "next/link";
+import { version } from "../version";
 
 export const metadata: Metadata = {
   title: "The Indexing-Brain",
@@ -37,6 +38,9 @@ export default function RootLayout({
             <div className="mx-auto">
               <span>
                 Copyright © 2023 - <Logo /> Team
+              </span>
+              <span className="text-xs text-neutral-content/50">
+                version: {version}
               </span>
             </div>
           </footer>
