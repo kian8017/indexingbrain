@@ -24,13 +24,6 @@ resource "digitalocean_record" "main-domain-root" {
   value = digitalocean_reserved_ip.ib-main-ip.ip_address
 }
 
-resource "digitalocean_record" "main-domain-www" {
-  domain = digitalocean_domain.default.id
-  type = "A"
-  name = "www"
-  value = digitalocean_reserved_ip.ib-main-ip.ip_address
-}
-
 resource "digitalocean_record" "main-domain-api" {
   domain = digitalocean_domain.default.id
   type = "A"
