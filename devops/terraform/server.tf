@@ -32,15 +32,15 @@ resource "digitalocean_record" "main-domain-api" {
 }
 
 
-resource "digitalocean_volume" "ib-names-vol" {
+resource "digitalocean_volume" "ib-vol" {
   region = "sfo3"
-  name = "ib-names"
+  name = "ib-vol"
   size = 5
   initial_filesystem_type = "ext4"
-  description = "volume for names for the indexing-brain"
+  description = "volume for the indexing-brain"
 }
 
-resource "digitalocean_volume_attachment" "ib-names-vol-to-ib-server" {
+resource "digitalocean_volume_attachment" "ib-vol-to-ib-server" {
   droplet_id = digitalocean_droplet.ib-server.id
-  volume_id = digitalocean_volume.ib-names-vol.id
+  volume_id = digitalocean_volume.ib-vol.id
 }
