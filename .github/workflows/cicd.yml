@@ -21,8 +21,8 @@ jobs:
     steps:
       - name: set up image name variables
         run: |
-          echo 'IMAGE_W_HASH="$IMAGE_BASE:${{ github.sha }}"' >>"$GITHUB_ENV"
-          echo 'IMAGE_W_LATESET="$IMAGE_BASE:latest"' >>"$GITHUB_ENV"
+          echo "IMAGE_W_HASH=$IMAGE_BASE:${{ github.sha }}" >>"$GITHUB_ENV"
+          echo "IMAGE_W_LATEST=$IMAGE_BASE:latest" >>"$GITHUB_ENV"
 
       - name: "check out repository"
         uses: "actions/checkout@v3"
