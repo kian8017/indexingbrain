@@ -26,10 +26,18 @@ resource "digitalocean_record" "main-domain-root" {
 
 resource "digitalocean_record" "main-domain-www" {
   domain = digitalocean_domain.default.id
-  type = "CNAME"
+  type = "A"
   name = "www"
-  value = "${var.domain}."
+  value = digitalocean_reserved_ip.ib-main-ip.ip_address
 }
+
+resource "digitalocean_record" "main-domain-api" {
+  domain = digitalocean_domain.default.id
+  type = "A"
+  name = "api"
+  value = digitalocean_reserved_ip.ib-main-ip.ip_address
+}
+
 
 resource "digitalocean_volume" "ib-names-vol" {
   region = "sfo3"
