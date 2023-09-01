@@ -4,9 +4,9 @@ fileThis=$(realpath $0)
 
 sScriptName=$(basename "$fileThis")
 
-if [ "$#" -ne 1 ]; then
+if [ "$#" -lt 1 ]; then
   exec 1>&2
-  echo "usage: $sScriptName <ansible.playbook>"
+  echo "usage: $sScriptName <ansible.playbook> [...ansible.playbook]"
   exit 1
 fi
 
