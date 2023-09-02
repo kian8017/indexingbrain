@@ -11,7 +11,7 @@ import Images from "./collections/Images";
 import FrequentlyAskedQuestions from "./collections/FrequentlyAskedQuestions";
 
 export default buildConfig({
-  serverURL: process.env.PAYLOAD_PUBLIC_ADDRESS,
+  serverURL: "",
   admin: {
     user: Users.slug,
   },
