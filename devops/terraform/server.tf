@@ -31,6 +31,13 @@ resource "digitalocean_record" "main-domain-api" {
   value = digitalocean_reserved_ip.ib-main-ip.ip_address
 }
 
+resource "digitalocean_record" "main-domain-admin" {
+  domain = digitalocean_domain.default.id
+  type = "A"
+  name = "admin"
+  value = digitalocean_reserved_ip.ib-main-ip.ip_address
+}
+
 
 resource "digitalocean_volume" "ib-vol" {
   region = "sfo3"
