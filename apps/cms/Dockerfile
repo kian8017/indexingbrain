@@ -6,6 +6,8 @@ RUN apk update
 WORKDIR /app
 RUN yarn global add pnpm
 
+
+
 FROM base AS builder
 RUN yarn global add turbo
 COPY . .
@@ -49,4 +51,5 @@ RUN pnpm install --prod
 COPY --from=installer --chown=payload:nodejs /app/apps/cms/build /app/apps/cms/build
 COPY --from=installer --chown=payload:nodejs /app/apps/cms/dist /app/apps/cms/dist
 
+EXPOSE 3000
 CMD ["node", "apps/cms/dist/server.js"]
