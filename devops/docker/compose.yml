@@ -1,0 +1,18 @@
+version: "3.8"
+services:
+  traefik:
+    image: "traefik:v2.10"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+  web:
+    image: "ghcr.io/kian8017/ib-web:latest"
+
+  cms:
+    image: "test-cms"
+
+  mongodb:
+    image: "mongo:latest"
+#    deploy:
+#      labels:
+#        - "traefik.enable=true"
+#        - "traefik.http.services.frontend-service.loadbalancer.server.port=3000"

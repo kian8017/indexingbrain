@@ -1,0 +1,41 @@
+# dev configuration, but named .override. for docker compose to automatically pick it up
+version: "3.8"
+services:
+  traefik:
+    command:
+      - "--log"
+      - "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedByDefault=false"
+      - "--entrypoints.http.address=:80"
+    ports:
+      - "80:80"
+      - "8080:8080"
+
+  web:
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.web-router.rule=Host(`localhost`)"
+      - "traefik.http.services.web-service.loadbalancer.server.port=3000"
+
+  cms:
+    image: "test-cms"
+    volumes:
+      - "ib_dev_payload_images:/app/apps/cms/data"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.cms-router.rule=Host(`admin.localhost`)"
+      - "traefik.http.services.cms-service.loadbalancer.server.port=3000"
+    environment:
+      - "PAYLOAD_SECRET=testing"
+      - "MONGODB_URI=mongodb://mongodb/ib"
+
+  mongodb:
+    volumes:
+      - "ib_dev_payload_mongodb:/data/db"
+    command: --quiet --logpath /dev/null
+
+volumes:
+  ib_dev_payload_mongodb:
+  ib_dev_payload_images:
