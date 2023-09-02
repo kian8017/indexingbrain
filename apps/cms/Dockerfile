@@ -27,8 +27,6 @@ RUN pnpm install
 COPY --from=builder /app/out/full/ .
 RUN pnpm exec turbo run build --filter=cms...
  
-
-
 FROM base AS runner
 LABEL org.opencontainers.image.source="https://github.com/kian8017/indexingbrain"
 ENV NODE_ENV=production
@@ -37,6 +35,8 @@ ENV PAYLOAD_CONFIG_PATH=dist/payload.config.js
 # don't run production as root
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 payload
+
+RUN mkdir -p /app/apps/cms/data/images
 RUN chown -R payload:nodejs /app
 
 USER payload
@@ -52,4 +52,5 @@ COPY --from=installer --chown=payload:nodejs /app/apps/cms/build /app/apps/cms/b
 COPY --from=installer --chown=payload:nodejs /app/apps/cms/dist /app/apps/cms/dist
 
 EXPOSE 3000
-CMD ["node", "apps/cms/dist/server.js"]
+WORKDIR /app/apps/cms
+CMD ["node", "dist/server.js"]
