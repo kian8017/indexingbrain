@@ -2,11 +2,13 @@ VERSION 0.7
 IMPORT ../.. AS base
 
 build:
+  ARG --required VERSION
   FROM base+pnpm
   DO base+INSTALLPRUNED --fromtarget="pruned-web"
 
   ENV NEXT_TELEMETRY_DISABLED 1
   WORKDIR /app/apps/web
+  RUN ./update.version.sh "$VERSION"
   RUN pnpm build
   SAVE ARTIFACT .next/standalone
   SAVE ARTIFACT .next/static

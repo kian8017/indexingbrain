@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/sh
 
 sVersion="$1"
 
