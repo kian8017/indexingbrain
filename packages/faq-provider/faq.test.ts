@@ -1,9 +1,10 @@
 import { describe, expect, it } from "@jest/globals";
-import { getFaqs } from "./faq";
+import { FAQProvider } from "./faq";
 
 describe("FAQProvider", () => {
   it("should return the expected name types", async () => {
-    const faqPromise = getFaqs();
+    const provider = new FAQProvider();
+    const faqPromise = provider.getFaqs();
     await expect(faqPromise).resolves.toHaveLength(3);
   });
 });
