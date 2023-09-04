@@ -11,10 +11,13 @@
         state: present
         advertise_addr: 127.0.0.1
 
-    - name: copy over docker stack template
+    - name: Copy over docker compose files
       ansible.builtin.copy:
-        src: ../docker/docker-stack.yml
-        dest: /opt/docker-stack.yml
+        src: ../docker/{{ item }}
+        dest: /opt/{{ item }}
+      loop:
+        - compose.yml
+        - compose.prod.yml
 
     - name: Deploy docker stack
       community.docker.docker_stack:
@@ -22,4 +25,5 @@
         name: ib
         prune: true
         compose:
-          - /opt/docker-stack.yml
+          - /opt/compose.yml
+          - /opt/compose.prod.yml
