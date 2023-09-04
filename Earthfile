@@ -57,3 +57,7 @@ pruned-web:
 pruned-cms:
   FROM +pnpm
   DO +PRUNE --scope=cms
+
+pruned-faq-provider:
+  FROM +pnpm
+  DO +PRUNE --scope=faq-provider
