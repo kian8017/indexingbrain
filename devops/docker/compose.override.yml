@@ -10,17 +10,18 @@ services:
       - "--providers.docker.exposedByDefault=false"
       - "--entrypoints.http.address=:80"
     ports:
-      - "80:80"
+      - "8081:80"
       - "8080:8080"
 
   web:
+    image: "ib-web"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.web-router.rule=Host(`localhost`)"
       - "traefik.http.services.web-service.loadbalancer.server.port=3000"
 
   cms:
-    image: "test-cms"
+    image: "ib-cms"
     volumes:
       - "ib_dev_payload_images:/app/apps/cms/data"
     labels:
