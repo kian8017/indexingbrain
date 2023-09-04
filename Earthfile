@@ -1,115 +1,56 @@
 VERSION 0.7
-ARG --global NODE_IMG = "node:18-alpine"
 
-pnpm-install:
-  FROM "$NODE_IMG"
+ARG --global BASE_NODE_IMG = "node:18-alpine"
+ARG --global BASE_ALPINE_IMG = "alpine:3.18"
+FROM "$BASE_ALPINE_IMG"
+
+build:
+  ARG --required VERSION
+  BUILD ./apps/web+run --VERSION="$VERSION"
+  BUILD ./apps/cms+run --VERSION="$VERSION"
+
+
+
+# ================ HELPERS ================
+
+# BASE IMAGES
+alpine:
+  FROM "$BASE_ALPINE_IMG"
+
+node:
+  FROM "$BASE_NODE_IMG"
+
+pnpm:
+  FROM +node
   RUN apk add --no-cache libc6-compat
   RUN apk update
   RUN yarn global add turbo pnpm
   WORKDIR /app
 
+# COMMANDS
 
-# ======== WEB ========
-
-
-web-01-prune:
-  FROM +pnpm-install
-
+PRUNE:
+  COMMAND
+  ARG --required scope
   COPY --dir apps packages pnpm* package.json turbo.json .
-  RUN turbo prune --scope=web --docker
+  RUN turbo prune --scope="$scope" --docker
   SAVE ARTIFACT out/json
   SAVE ARTIFACT out/full
 
-web-02-build:
-  FROM +pnpm-install
 
-  COPY +web-01-prune/json .
+INSTALLPRUNED:
+  COMMAND
+  ARG --required fromtarget
+  COPY "+$fromtarget/json" .
   RUN pnpm install
-  COPY +web-01-prune/full .
-  ENV NEXT_TELEMETRY_DISABLED 1
-  WORKDIR /app/apps/web
-  RUN pnpm build
-  SAVE ARTIFACT .next/standalone
-  SAVE ARTIFACT .next/static
-  SAVE ARTIFACT public
+  COPY "+$fromtarget/full" .
 
-web-03-run:
-  ARG --required VERSION
-  ARG BASE = "ghcr.io/kian8017/ib-web"
-  FROM "$NODE_IMG"
-  LABEL org.opencontainers.image.source="https://github.com/kian8017/indexingbrain"
-  WORKDIR /app
+# PRUNED TARGETS
 
-  RUN addgroup --system --gid 1001 nodejs
-  RUN adduser --system --uid 1001 nextjs
-  USER nextjs
+pruned-web:
+  FROM +pnpm
+  DO +PRUNE --scope=web
 
-  COPY --chown=nextjs:nodejs +web-02-build/standalone ./
-  COPY --chown=nextjs:nodejs --dir +web-02-build/static ./apps/web/.next/static
-  COPY --chown=nextjs:nodejs --dir +web-02-build/public ./apps/web/public
-
-  ENV NEXT_TELEMETRY_DISABLED 1
-  ENV HOSTNAME "0.0.0.0"
-
-  EXPOSE 3000
-  CMD ["node", "apps/web/server.js"]
-
-  SAVE IMAGE --push "$BASE:latest" "$BASE:$VERSION"
-
-
-# ======== CMS ========
-
-
-cms-01-prune:
-  FROM +pnpm-install
-
-  COPY --dir apps packages pnpm* package.json turbo.json .
-  RUN turbo prune --scope=cms --docker
-  SAVE ARTIFACT out/json
-  SAVE ARTIFACT out/full
-
-cms-02-build:
-  FROM +pnpm-install
-
-  COPY +cms-01-prune/json .
-  RUN pnpm install
-  COPY +cms-01-prune/full .
-  WORKDIR /app/apps/cms
-  RUN pnpm build
-  # dependencies
-  SAVE ARTIFACT /app/apps/cms/package.json /cms-package.json
-  SAVE ARTIFACT /app/package.json
-  SAVE ARTIFACT /app/pnpm-lock.yaml
-  # payload
-  SAVE ARTIFACT build
-  SAVE ARTIFACT dist
-
-cms-03-run:
-  ARG --required VERSION
-  ARG BASE = "ghcr.io/kian8017/ib-cms"
-  # FIXME: unnecessary dependency -- don't need turbo in this image
-  FROM +pnpm-install
-  LABEL org.opencontainers.image.source="https://github.com/kian8017/indexingbrain"
-
-  RUN addgroup --system --gid 1001 nodejs
-  RUN adduser --system --uid 1001 payload
-
-  RUN mkdir -p /app/apps/cms/data/images
-  RUN chown -R payload:nodejs /app
-
-  USER payload
-  WORKDIR /app/apps/cms
-
-  # install prod dependencies
-  COPY --chown=payload:nodejs +cms-02-build/cms-package.json /app/apps/cms/package.json
-  COPY --chown=payload:nodejs +cms-02-build/pnpm-lock.yaml /app/pnpm-lock.yaml
-  COPY --chown=payload:nodejs +cms-02-build/package.json /app/package.json
-  RUN pnpm install --prod
-
-  # copy over built files
-  COPY --chown=payload:nodejs +cms-02-build/build /app/apps/cms/build
-  COPY --chown=payload:nodejs +cms-02-build/dist /app/apps/cms/dist
-
-  EXPOSE 3000
-  CMD ["node", "dist/server.js"]
-  SAVE IMAGE --push "$BASE:latest" "$BASE:$VERSION"
+pruned-cms:
+  FROM +pnpm
+  DO +PRUNE --scope=cms

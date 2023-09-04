@@ -1,0 +1,49 @@
+VERSION 0.7
+IMPORT ../.. AS base
+
+build:
+  FROM base+pnpm
+  DO base+INSTALLPRUNED --fromtarget="pruned-cms"
+
+  ENV NEXT_TELEMETRY_DISABLED 1
+  WORKDIR /app/apps/cms
+  RUN pnpm build
+
+  # dependencies
+  SAVE ARTIFACT /app/apps/cms/package.json /cms-package.json
+  SAVE ARTIFACT /app/package.json
+  SAVE ARTIFACT /app/pnpm-lock.yaml
+  # payload
+  SAVE ARTIFACT build
+  SAVE ARTIFACT dist
+
+
+run:
+  ARG --required VERSION
+  ARG BASE = "ghcr.io/kian8017/ib-cms"
+  # FIXME: unnecessary dependency -- don't need turbo in this image
+  FROM base+pnpm
+  LABEL org.opencontainers.image.source="https://github.com/kian8017/indexingbrain"
+
+  RUN addgroup --system --gid 1001 nodejs
+  RUN adduser --system --uid 1001 payload
+
+  RUN mkdir -p /app/apps/cms/data/images
+  RUN chown -R payload:nodejs /app
+
+  USER payload
+  WORKDIR /app/apps/cms
+
+  # install prod dependencies
+  COPY --chown=payload:nodejs +build/cms-package.json /app/apps/cms/package.json
+  COPY --chown=payload:nodejs +build/pnpm-lock.yaml /app/pnpm-lock.yaml
+  COPY --chown=payload:nodejs +build/package.json /app/package.json
+  RUN pnpm install --prod
+
+  # copy over built files
+  COPY --chown=payload:nodejs +build/build /app/apps/cms/build
+  COPY --chown=payload:nodejs +build/dist /app/apps/cms/dist
+
+  EXPOSE 3000
+  CMD ["node", "dist/server.js"]
+  SAVE IMAGE --push "$BASE:latest" "$BASE:$VERSION"

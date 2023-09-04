@@ -1,0 +1,36 @@
+VERSION 0.7
+IMPORT ../.. AS base
+
+build:
+  FROM base+pnpm
+  DO base+INSTALLPRUNED --fromtarget="pruned-web"
+
+  ENV NEXT_TELEMETRY_DISABLED 1
+  WORKDIR /app/apps/web
+  RUN pnpm build
+  SAVE ARTIFACT .next/standalone
+  SAVE ARTIFACT .next/static
+  SAVE ARTIFACT public
+
+run:
+  ARG --required VERSION
+  ARG BASE = "ghcr.io/kian8017/ib-web"
+  FROM base+node
+  LABEL org.opencontainers.image.source="https://github.com/kian8017/indexingbrain"
+  WORKDIR /app
+
+  RUN addgroup --system --gid 1001 nodejs
+  RUN adduser --system --uid 1001 nextjs
+  USER nextjs
+
+  COPY --chown=nextjs:nodejs +build/standalone ./
+  COPY --chown=nextjs:nodejs --dir +build/static ./apps/web/.next/static
+  COPY --chown=nextjs:nodejs --dir +build/public ./apps/web/public
+
+  ENV NEXT_TELEMETRY_DISABLED 1
+  ENV HOSTNAME "0.0.0.0"
+
+  EXPOSE 3000
+  CMD ["node", "apps/web/server.js"]
+
+  SAVE IMAGE --push "$BASE:latest" "$BASE:$VERSION"
