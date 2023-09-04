@@ -3,7 +3,11 @@ export type FAQ = {
   answer: string;
 };
 
-export class FAQProvider {
+export interface FAQProvider {
+  getFaqs(): Promise<FAQ[]>;
+}
+
+export class PayloadFAQProvider implements FAQProvider {
   constructor() {}
 
   async getFaqs(): Promise<FAQ[]> {

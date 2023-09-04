@@ -1,0 +1,15 @@
+# used to bring up services for testing
+version: "3.8"
+services:
+  cms:
+    image: "ghcr.io/kian8017/ib-cms:latest"
+    ports:
+      - "3000:3000"
+    environment:
+      - "PAYLOAD_SECRET=testing"
+      - "MONGODB_URI=mongo://mongodb/ib"
+
+  mongodb:
+    image: "mongo:latest"
+    ports:
+      - "27017:27017"

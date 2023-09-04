@@ -1,0 +1,9 @@
+VERSION 0.7
+
+IMPORT ../.. AS base
+
+test:
+  FROM base+pnpm
+  DO base+INSTALLPRUNED --fromtarget="pruned-faq-provider"
+  WORKDIR /app/packages/faq-provider
+  RUN pnpm test
