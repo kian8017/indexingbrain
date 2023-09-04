@@ -7,3 +7,20 @@ deps:
   COPY compose.yml compose.prod.yml .
   SAVE ARTIFACT compose.yml
   SAVE ARTIFACT compose.prod.yml
+
+dump-db:
+  ARG CONTAINER_NAME = "docker-mongodb-1"
+  ARG DB_NAME = "ib"
+  ARG DUMP_DEST = "dump.db.tar.gz"
+  LOCALLY
+  RUN docker cp dump.db.sh "$CONTAINER_NAME:/" 
+  RUN docker exec "$CONTAINER_NAME" /dump.db.sh "$DB_NAME" "$DUMP_DEST"
+  RUN docker cp "$CONTAINER_NAME:/$DUMP_DEST" "$DUMP_DEST"
+
+dump-images:
+  ARG CONTAINER_NAME = "docker-cms-1"
+  ARG DUMP_DEST = "dump.images.tar.gz"
+  LOCALLY
+  RUN docker cp dump.images.sh "$CONTAINER_NAME:/" 
+  RUN docker exec "$CONTAINER_NAME" /dump.images.sh "/app/apps/cms/data/images" "/app/$DUMP_DEST"
+  RUN docker cp "$CONTAINER_NAME:/app/$DUMP_DEST" "$DUMP_DEST"
