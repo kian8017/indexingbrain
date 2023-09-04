@@ -15,8 +15,6 @@ build:
   SAVE ARTIFACT public
 
 run:
-  ARG --required VERSION
-  ARG BASE = "ghcr.io/kian8017/ib-web"
   FROM base+node
   LABEL org.opencontainers.image.source="https://github.com/kian8017/indexingbrain"
   WORKDIR /app
@@ -34,5 +32,10 @@ run:
 
   EXPOSE 3000
   CMD ["node", "apps/web/server.js"]
+  SAVE IMAGE ib-web
 
+publish:
+  ARG --required VERSION
+  ARG BASE = "ghcr.io/kian8017/ib-web"
+  FROM +run
   SAVE IMAGE --push "$BASE:latest" "$BASE:$VERSION"

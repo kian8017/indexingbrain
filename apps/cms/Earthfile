@@ -19,9 +19,6 @@ build:
 
 
 run:
-  ARG --required VERSION
-  ARG BASE = "ghcr.io/kian8017/ib-cms"
-  # FIXME: unnecessary dependency -- don't need turbo in this image
   FROM base+pnpm
   LABEL org.opencontainers.image.source="https://github.com/kian8017/indexingbrain"
 
@@ -45,5 +42,12 @@ run:
   COPY --chown=payload:nodejs +build/dist /app/apps/cms/dist
 
   EXPOSE 3000
-  CMD ["node", "dist/server.js"]
+  WORKDIR /app/apps/cms/dist
+  CMD ["node", "server.js"]
+  SAVE IMAGE ib-cms
+
+publish:
+  ARG --required VERSION
+  ARG BASE = "ghcr.io/kian8017/ib-cms"
+  FROM +run
   SAVE IMAGE --push "$BASE:latest" "$BASE:$VERSION"
