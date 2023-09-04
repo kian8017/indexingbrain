@@ -14,7 +14,11 @@ resource "digitalocean_reserved_ip" "ib-main-ip" {
 }
 
 resource "digitalocean_domain" "default" {
-  name = var.domain
+  name = var.primary_domain
+}
+
+resource "digitalocean_domain" "secondary" {
+  name = var.secondary_domain
 }
 
 resource "digitalocean_record" "main-domain-root" {

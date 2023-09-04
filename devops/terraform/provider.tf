@@ -16,7 +16,8 @@ terraform {
 }
 
 variable "do_token" {}
-variable "domain" {}
+variable "primary_domain" {}
+variable "secondary_domain" {}
 variable "ssh_public_key_file" {}
 variable "ssh_private_key_file" {}
 
