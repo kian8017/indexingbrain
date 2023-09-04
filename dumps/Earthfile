@@ -1,0 +1,15 @@
+VERSION 0.7
+
+IMPORT .. AS base
+
+db:
+  ARG DB_DUMP = "dump.db.tar.gz"
+  FROM base+alpine
+  COPY "$DB_DUMP" .
+  SAVE ARTIFACT "$DB_DUMP"
+
+images:
+  ARG IMAGES_DUMP = "dump.images.tar.gz"
+  FROM base+alpine
+  COPY "$IMAGES_DUMP" .
+  SAVE ARTIFACT "$IMAGES_DUMP"
