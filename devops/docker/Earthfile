@@ -1,14 +1,9 @@
 VERSION 0.7
-IMPORT ../.. AS base
-IMPORT ../../apps/web
-IMPORT ../../apps/cms
 
-# dev:
-#   LOCALLY
-#   WITH DOCKER \
-#       --compose compose.yml \
-#       --compose compose.override.yml \
-#       --load ghcr.io/kian8017/ib-web:latest=(web+run --VERSION=earthly-dev) \
-#       --load ghcr.io/kian8017/ib-cms:latest=cms+run
-#       RUN docker compose up -d
-#   END
+IMPORT ../.. AS base
+
+deps:
+  FROM base+alpine
+  COPY compose.yml compose.prod.yml .
+  SAVE ARTIFACT compose.yml
+  SAVE ARTIFACT compose.prod.yml

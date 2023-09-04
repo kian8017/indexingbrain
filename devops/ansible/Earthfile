@@ -1,0 +1,25 @@
+VERSION 0.7
+
+IMPORT ../.. AS base
+IMPORT ../docker
+
+ansible:
+  FROM base+alpine
+  RUN apk add ansible
+
+deploy-docker:
+  FROM +ansible
+  WORKDIR /app/ansible
+  COPY deploy-docker.yml .
+  COPY docker+deps/compose.yml docker+deps/compose.prod.yml /app/docker/
+
+  RUN --push --secret SSH_PRIVATE_KEY \
+    echo "$SSH_PRIVATE_KEY" > /opt/ssh.private.key &&\
+    chmod 0600 /opt/ssh.private.key
+  
+  RUN --push --secret HOST \
+    echo -e "[server]\n$HOST ansible_private_key_file=/opt/ssh.private.key" > /opt/inventory
+
+  RUN \
+    --push \
+    ansible-playbook -i /opt/inventory deploy-docker.yml
