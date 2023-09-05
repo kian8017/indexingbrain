@@ -1,9 +1,31 @@
 VERSION 0.7
 
 IMPORT ../.. AS base
+IMPORT ../../apps/cms
+IMPORT ../../dumps
 
-test:
-  FROM base+pnpm
-  DO base+INSTALLPRUNED --fromtarget="pruned-faq-provider"
-  WORKDIR /app/packages/faq-provider
-  RUN pnpm test
+seeded-db:
+  FROM mongo:latest
+  COPY dumps+db/dump.db.tar.gz .
+  RUN gzip -d <dump.db.tar.gz |tar x
+  RUN echo "#! /bin/sh\nmongorestore --db ib /dump/ib/" >/docker-entrypoint-initdb.d/seed.sh && chmod +x /docker-entrypoint-initdb.d/seed.sh
+
+seeded-cms:
+  FROM cms+run
+
+  COPY dumps+images/dump.images.tar.gz /tmp/dump.images.tar.gz
+  RUN cd / && tar xf /tmp/dump.images.tar.gz
+
+up:
+  LOCALLY
+  WITH DOCKER --load seeded-cms=+seeded-cms --load seeded-db=+seeded-db
+    RUN docker-compose down && docker-compose up -d
+  END
+
+down:
+  LOCALLY
+  RUN docker-compose down
+
+cycle:
+  BUILD +down
+  BUILD +up

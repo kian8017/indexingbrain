@@ -2,7 +2,7 @@
 version: "3.8"
 services:
   cms:
-    image: "ghcr.io/kian8017/ib-cms:latest"
+    image: "seeded-cms"
     ports:
       - "3000:3000"
     environment:
@@ -10,7 +10,11 @@ services:
       - "MONGODB_URI=mongodb://mongodb/ib"
 
   mongodb:
-    image: "mongo:latest"
+    image: "seeded-db"
     ports:
       - "27017:27017"
-    command: --quiet --logpath /dev/null
+    volumes:
+      - "test-ib-cms:/data/db"
+
+volumes:
+  test-ib-cms:
