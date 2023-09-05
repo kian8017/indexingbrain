@@ -76,6 +76,9 @@ importers:
       autoprefixer:
         specifier: 10.4.15
         version: 10.4.15(postcss@8.4.27)
+      carousel-provider:
+        specifier: workspace:^
+        version: link:../../packages/carousel-provider
       eslint:
         specifier: 8.47.0
         version: 8.47.0

@@ -1,28 +1,27 @@
-/*
+import { carouselProvider } from "@/backend/providers";
 import Image from "next/image";
 import ClientCarousel from "./carousel.client";
-import request from "./payload";
 
 export default async function Carousel() {
-  const resp = await request("/api/carousel-pairs", undefined, "GET");
+  const slides = await carouselProvider.getSlides();
 
-  const pairs = resp.docs.map((d: any) => {
+  const slideElements = slides.map((curSlide) => {
     return (
-      <div key={d.id}>
+      <div key={curSlide.nickname}>
         <div>
           <h2>Turn this:</h2>
           <Image
-            height={d.handwrittenImage.height}
-            width={d.handwrittenImage.width}
-            src={d.handwrittenImage.url}
+            height={curSlide.handwritten.height}
+            width={curSlide.handwritten.width}
+            src={curSlide.handwritten.url}
             alt="handwriting example"
           />
           <div className="py-2" />
           <h2>Into this:</h2>
           <Image
-            height={d.typedImage.height}
-            width={d.typedImage.width}
-            src={d.typedImage.url}
+            height={curSlide.typed.height}
+            width={curSlide.typed.width}
+            src={curSlide.typed.url}
             alt="transcription of prior handwriting example"
           />
         </div>
@@ -33,8 +32,7 @@ export default async function Carousel() {
   return (
     <div className="bg-base-300 max-w-lg text-center">
       <p>For example:</p>
-      <ClientCarousel pairs={pairs} />
+      <ClientCarousel pairs={slideElements} />
     </div>
   );
 }
-*/

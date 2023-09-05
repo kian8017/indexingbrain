@@ -1,4 +1,4 @@
-//import Carousel from "@/components/carousel.server";
+import Carousel from "@/components/carousel.server";
 import Logo from "../components/logo";
 import Link from "next/link";
 
@@ -21,7 +21,7 @@ export default function Home() {
           </ol>
         </div>
         <div>
-          <p>CAROUSEL</p>
+          <Carousel />
         </div>
       </div>
       <div className="text-center">

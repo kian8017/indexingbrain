@@ -1,16 +1,13 @@
-/*
-const publicPayloadAddress = process.env.NEXT_PUBLIC_PAYLOAD_ADDRESS;
+const payloadAddress = process.env.PAYLOAD_ADDRESS;
 
-if (publicPayloadAddress === undefined) {
-  throw new Error("NEXT_PUBLIC_PAYLOAD_ADDRESS is not defined");
+if (payloadAddress === undefined) {
+  throw new Error("PAYLOAD_ADDRESS is not defined");
 }
 
-const payloadUrl = new URL(publicPayloadAddress);
-*/
+const payloadUrl = new URL(payloadAddress);
 
 const path = require("path");
 
-/*
 const nextConfig = {
   images: {
     remotePatterns: [
@@ -22,15 +19,10 @@ const nextConfig = {
       },
     ],
   },
-};
-
-*/
-
-/** @type {import('next').NextConfig} */
-const nextConfig = {
   output: "standalone",
   experimental: {
     outputFileTracingRoot: path.join(__dirname, "../../"),
   },
 };
+
 module.exports = nextConfig;
