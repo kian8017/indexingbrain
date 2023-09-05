@@ -19,12 +19,12 @@ seeded-cms:
 up:
   LOCALLY
   WITH DOCKER --load seeded-cms=+seeded-cms --load seeded-db=+seeded-db
-    RUN docker-compose down && docker-compose up -d
+    RUN docker compose down && docker compose up -d
   END
 
 down:
   LOCALLY
-  RUN docker-compose down
+  RUN docker compose down
 
 cycle:
   BUILD +down
