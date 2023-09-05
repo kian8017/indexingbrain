@@ -6,6 +6,7 @@ services:
       - "../..:/indexingbrain"
       - "$SSH_AUTH_SOCK:/sshagent"
       - "/var/run/docker.sock:/var/run/docker.sock"
+      - "/Users/kian/Library/pnpm/store/v3:/Users/kian/Library/pnpm/store/v3"
     environment:
       - "SSH_AUTH_SOCK=/sshagent"
     tty: true
