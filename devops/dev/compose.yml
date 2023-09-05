@@ -1,0 +1,8 @@
+version: "3.8"
+services:
+  ibdev:
+    image: "ibdev"
+    volumes:
+      - "../..:/indexingbrain"
+    tty: true
+    stdin_open: true

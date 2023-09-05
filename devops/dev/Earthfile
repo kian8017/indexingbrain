@@ -1,29 +1,26 @@
 VERSION 0.7
 
-deps:
-  FROM alpine:3.18
-  RUN apk add git openssh nodejs npm curl file docker
+#COPY gitconfig /root/.gitconfig
+
+dev:
+  # change to 22.04
+  FROM node:20.5.1
+  # combine update with install
+  RUN apt-get update
+  RUN apt-get install -y git ssh curl file vim
   RUN npm install -g pnpm turbo
+
+  RUN curl -fsSL https://get.docker.com |bash
 
   RUN wget https://github.com/earthly/earthly/releases/latest/download/earthly-linux-amd64 -O /usr/local/bin/earthly && chmod +x /usr/local/bin/earthly
 
-repo:
-  FROM +deps
-  RUN mkdir /root/.ssh && ssh-keyscan -t rsa github.com >> /root/.ssh/known_hosts
-  RUN --ssh git clone git@github.com:kian8017/indexingbrain.git /indexingbrain
-  WORKDIR /indexingbrain
-  RUN pnpm install
-  SAVE ARTIFACT /root/.ssh/known_hosts known_hosts
-  SAVE ARTIFACT /indexingbrain
-
-dev:
-  FROM +deps
-
-  COPY +repo/known_hosts ~/.ssh/known_hosts
-  COPY +repo/indexingbrain /indexingbrain
-  WORKDIR /indexingbrain
-
-  RUN apk add vim docker-compose
-  COPY gitconfig /root/.gitconfig
-
+  CMD [ "sleep", "86400" ]
   SAVE IMAGE ibdev
+
+up:
+  LOCALLY
+  RUN docker compose up -d
+
+down:
+  LOCALLY
+  RUN docker compose down
