@@ -7,9 +7,10 @@ services:
       - "3000:3000"
     environment:
       - "PAYLOAD_SECRET=testing"
-      - "MONGODB_URI=mongo://mongodb/ib"
+      - "MONGODB_URI=mongodb://mongodb/ib"
 
   mongodb:
     image: "mongo:latest"
     ports:
       - "27017:27017"
+    command: --quiet --logpath /dev/null
