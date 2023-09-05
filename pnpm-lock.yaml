@@ -7,6 +7,10 @@ settings:
 importers:
 
   .:
+    dependencies:
+      faq-provider:
+        specifier: workspace:*
+        version: link:packages/faq-provider
     devDependencies:
       '@turbo/gen':
         specifier: ^1.9.7
@@ -78,6 +82,9 @@ importers:
       eslint-config-next:
         specifier: 13.4.13
         version: 13.4.13(eslint@8.47.0)(typescript@5.1.6)
+      faq-provider:
+        specifier: workspace:^
+        version: link:../../packages/faq-provider
       next:
         specifier: 13.4.13
         version: 13.4.13(@babel/core@7.22.10)(react-dom@18.2.0)(react@18.2.0)

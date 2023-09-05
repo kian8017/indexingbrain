@@ -23,7 +23,8 @@
     },
     "[json]": {
       "editor.defaultFormatter": "esbenp.prettier-vscode"
-    }
+    },
+    "npm.packageManager": "pnpm"
   },
   "extensions": {
     "recommendations": ["bradlc.vscode-tailwindcss", "esbenp.prettier-vscode"]

@@ -7,6 +7,9 @@
     "test": "dotenv -- turbo run test",
     "format": "dotenv -- prettier --write \"**/*.{ts,tsx,md}\""
   },
+  "dependencies": {
+    "faq-provider": "workspace:*"
+  },
   "devDependencies": {
     "@turbo/gen": "^1.9.7",
     "dotenv-cli": "^7.3.0",
