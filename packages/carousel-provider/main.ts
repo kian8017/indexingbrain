@@ -17,14 +17,14 @@ export interface CarouselProvider {
 export class PayloadCarouselProvider implements CarouselProvider {
 	private payloadAddress: string;
 
-	constructor(addr) {
+	constructor(addr: string) {
 		this.payloadAddress = addr;
 	}
 
 	async getSlides(): Promise<Slide[]> {
 		const resp = await this._sendRequest("/api/carousel-pairs");
 		const rawSlides = (await resp.json()).docs;
-		return rawSlides.map(rs => {
+		return rawSlides.map((rs: any) => {
 			return {
 				nickname: rs.nickname,
 				handwritten: {
@@ -41,7 +41,7 @@ export class PayloadCarouselProvider implements CarouselProvider {
 		});
 	}
 
-	async _sendRequest(partialUrl): Promise<Response> {
+	async _sendRequest(partialUrl: string): Promise<Response> {
 		const fullUrl = this.payloadAddress + partialUrl;
 		return await fetch(fullUrl);
 	}
