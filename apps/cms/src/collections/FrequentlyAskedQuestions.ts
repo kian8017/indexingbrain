@@ -9,6 +9,9 @@ const FrequentlyAskedQuestions: CollectionConfig = {
     singular: "FAQ",
     plural: "FAQs",
   },
+  access: {
+    read: () => true
+  },
   fields: [
     {
       name: "question",

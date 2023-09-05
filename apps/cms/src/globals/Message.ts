@@ -9,6 +9,9 @@ const Message: GlobalConfig = {
       required: true,
     },
   ],
+  access: {
+    read: () => true,
+  },
   admin: {
     description:
       "The pop-up message shown to people when visiting the search page.",

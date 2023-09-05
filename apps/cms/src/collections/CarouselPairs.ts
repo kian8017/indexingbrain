@@ -5,6 +5,9 @@ const CarouselPairs: CollectionConfig = {
   admin: {
     useAsTitle: "nickname",
   },
+  access: {
+    read: () => true
+  },
   fields: [
     {
       name: "nickname",

@@ -5,6 +5,9 @@ const CouldBes: CollectionConfig = {
   admin: {
     useAsTitle: "thisCould",
   },
+  access: {
+    read: () => true
+  },
   fields: [
     {
       name: "thisCould",

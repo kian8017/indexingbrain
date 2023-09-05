@@ -5,6 +5,9 @@ const Replacements: CollectionConfig = {
   admin: {
     useAsTitle: "replaceThis",
   },
+  access: {
+    read: () => true
+  },
   fields: [
     {
       name: "replaceThis",
