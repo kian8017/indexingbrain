@@ -9,7 +9,7 @@ bExists="$?"
 
 sAction="$1"
 
-if [ "$sAction" == "c" ]; then
+if [ "$sAction" == "r" ]; then
 	if [ "$bExists" -eq 0 ]; then
 		docker exec -it ibdev ash
 	else
@@ -22,8 +22,7 @@ if [ "$sAction" == "c" ]; then
 		docker exec -it ibdev ash
 	fi
 elif [ "$sAction" == "q" ]; then
-	docker stop ibdev
-	docker rm ibdev
+	docker kill ibdev
 elif [ "$sAction" == "b" ]; then
 	cd "$dirDev"
 	earthly +dev

@@ -9,16 +9,21 @@ deps:
 
 repo:
   FROM +deps
-  RUN mkdir /root/.ssh && ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+  RUN mkdir /root/.ssh && ssh-keyscan -t rsa github.com >> /root/.ssh/known_hosts
   RUN --ssh git clone git@github.com:kian8017/indexingbrain.git /indexingbrain
   WORKDIR /indexingbrain
   RUN pnpm install
+  SAVE ARTIFACT /root/.ssh/known_hosts known_hosts
   SAVE ARTIFACT /indexingbrain
 
 dev:
   FROM +deps
 
+  COPY +repo/known_hosts ~/.ssh/known_hosts
   COPY +repo/indexingbrain /indexingbrain
   WORKDIR /indexingbrain
+
+  RUN apk add vim docker-compose
+  COPY gitconfig /root/.gitconfig
 
   SAVE IMAGE ibdev
