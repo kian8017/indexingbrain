@@ -3,10 +3,12 @@ IMPORT ../.. AS base
 
 build:
   ARG --required VERSION
+  ARG --required PAYLOAD_ADDRESS
   FROM base+pnpm
   DO base+INSTALLPRUNED --fromtarget="pruned-web"
 
   ENV NEXT_TELEMETRY_DISABLED 1
+  ENV PAYLOAD_ADDRESS "$PAYLOAD_ADDRESS"
   WORKDIR /app/apps/web
   RUN ./update.version.sh "$VERSION"
   RUN pnpm build
@@ -36,6 +38,7 @@ run:
 
 publish:
   ARG --required VERSION
+  ARG --required PAYLOAD_ADDRESS
   ARG BASE = "ghcr.io/kian8017/ib-web"
   FROM +run
   SAVE IMAGE --push "$BASE:latest" "$BASE:$VERSION"

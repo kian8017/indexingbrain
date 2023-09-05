@@ -10,7 +10,8 @@ build:
 
 publish:
   ARG --required VERSION
-  BUILD ./apps/web+publish --VERSION="$VERSION"
+  ARG --required PAYLOAD_ADDRESS
+  BUILD ./apps/web+publish --VERSION="$VERSION" --PAYLOAD_ADDRESS="$PAYLOAD_ADDRESS"
   BUILD ./apps/cms+publish --VERSION="$VERSION"
 
 
