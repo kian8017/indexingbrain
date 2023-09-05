@@ -37,3 +37,4 @@ yarn-error.log*
 
 # nektos/act
 .act.env
+.pnpm-store
