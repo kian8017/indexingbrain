@@ -1,8 +1,8 @@
 VERSION 0.7
 
-IMPORT ../.. AS base
-IMPORT ../../apps/cms
-IMPORT ../../dumps
+IMPORT .. AS base
+IMPORT ../apps/cms
+IMPORT ../dumps
 
 seeded-db:
   FROM mongo:latest
