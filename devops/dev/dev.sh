@@ -14,7 +14,7 @@ if [ "$sAction" == "r" ]; then
 		docker exec -it ibdev ash
 	else
 		docker run -dit --rm \
-			-v $(readlink -f $SSH_AUTH_SOCK):/ssh-agent -e SSH_AUTH_SOCK=/ssh-agent \
+			-v $(realpath $SSH_AUTH_SOCK):/ssh-agent -e SSH_AUTH_SOCK=/ssh-agent \
 			-v /var/run/docker.sock:/var/run/docker.sock \
 			-p 3001:3001 \
 			--name ibdev \
