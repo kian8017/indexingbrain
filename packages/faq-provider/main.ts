@@ -10,14 +10,14 @@ export interface FAQProvider {
 export class PayloadFAQProvider implements FAQProvider {
 	private payloadAddress: string;
 
-	constructor(addr) {
+	constructor(addr: string) {
 		this.payloadAddress = addr;
 	}
 
-	async getFAQs() {
+	async getFAQs(): Promise<FAQ[]> {
 		const resp = await this._sendRequest("/api/faq");
 		const rawFaqs = (await resp.json()).docs;
-		return rawFaqs.map(rf => {
+		return rawFaqs.map((rf: any) => {
 			return {
 				question: rf.question,
 				answer: rf.answer,
@@ -25,7 +25,7 @@ export class PayloadFAQProvider implements FAQProvider {
 		});
 	}
 
-	async _sendRequest(partialUrl): Promise<Response> {
+	async _sendRequest(partialUrl: string): Promise<Response> {
 		const fullUrl = this.payloadAddress + partialUrl;
 		return await fetch(fullUrl);
 	}
