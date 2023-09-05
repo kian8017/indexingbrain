@@ -1,0 +1,12 @@
+VERSION 0.7
+
+dev:
+  FROM ubuntu:22.04
+
+  RUN addgroup --system --gid 1001 kian
+  RUN adduser --system --uid 1001 kian
+  USER kian
+
+  WORKDIR /home/kian
+
+  SAVE IMAGE ibdev
