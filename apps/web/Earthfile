@@ -17,6 +17,7 @@ build:
   SAVE ARTIFACT public
 
 run:
+  ARG --required PAYLOAD_ADDRESS
   FROM base+node
   LABEL org.opencontainers.image.source="https://github.com/kian8017/indexingbrain"
   WORKDIR /app
@@ -25,11 +26,12 @@ run:
   RUN adduser --system --uid 1001 nextjs
   USER nextjs
 
-  COPY --chown=nextjs:nodejs +build/standalone ./
-  COPY --chown=nextjs:nodejs --dir +build/static ./apps/web/.next/static
-  COPY --chown=nextjs:nodejs --dir +build/public ./apps/web/public
+  COPY --chown=nextjs:nodejs (+build/standalone --PAYLOAD_ADDRESS="$PAYLOAD_ADDRESS") ./
+  COPY --chown=nextjs:nodejs --dir (+build/static --PAYLOAD_ADDRESS="$PAYLOAD_ADDRESS") ./apps/web/.next/static
+  COPY --chown=nextjs:nodejs --dir (+build/public --PAYLOAD_ADDRESS="$PAYLOAD_ADDRESS") ./apps/web/public
 
   ENV NEXT_TELEMETRY_DISABLED 1
+  ENV PAYLOAD_ADDRESS "$PAYLOAD_ADDRESS"
   ENV HOSTNAME "0.0.0.0"
 
   EXPOSE 3000

@@ -5,7 +5,9 @@ ARG --global BASE_ALPINE_IMG = "alpine:3.18"
 FROM "$BASE_ALPINE_IMG"
 
 build:
-  BUILD ./apps/web+run --VERSION="dev-web"
+  ARG --required VERSION
+  ARG --required PAYLOAD_ADDRESS
+  BUILD ./apps/web+run --VERSION="$VERSION" --PAYLOAD_ADDRESS="$PAYLOAD_ADDRESS"
   BUILD ./apps/cms+run
 
 publish:
