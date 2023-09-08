@@ -13,8 +13,3 @@ services:
     image: "seeded-db"
     ports:
       - "27017:27017"
-    volumes:
-      - "test-ib-cms:/data/db"
-
-volumes:
-  test-ib-cms:
