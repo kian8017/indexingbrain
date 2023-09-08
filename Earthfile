@@ -47,9 +47,13 @@ PRUNE:
 INSTALLPRUNED:
   COMMAND
   ARG --required fromtarget
+  RUN apk add rsync
+  WORKDIR /deps
   COPY "+$fromtarget/json" .
   RUN pnpm install
+  WORKDIR /app
   COPY "+$fromtarget/full" .
+  RUN rsync -a /deps/ /app
 
 # PRUNED TARGETS
 
