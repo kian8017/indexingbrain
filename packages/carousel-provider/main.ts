@@ -48,6 +48,8 @@ export class PayloadCarouselProvider implements CarouselProvider {
 
   async _sendRequest(partialUrl: string): Promise<Response> {
     const fullUrl = this.payloadAddress + partialUrl;
-    return await fetch(fullUrl);
+    return await fetch(fullUrl, {
+      cache: "no-cache",
+    });
   }
 }
