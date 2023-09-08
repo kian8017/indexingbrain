@@ -1,11 +1,10 @@
 import RenderPayloadDocument from "./renderer";
-import ReactDOMServer from "react-dom/server";
 
 import { fetch } from "cross-fetch";
 
 export type Page = {
   title: string;
-  body: string;
+  body: React.ReactElement;
 };
 
 export interface PageProvider {
@@ -30,10 +29,13 @@ export class PayloadPageProvider implements PageProvider {
       }
 
       const page = pages[0];
-      const content = RenderPayloadDocument({ nodes: page.content });
+      const content = RenderPayloadDocument({
+        payloadAddress: this.payloadAddress,
+        nodes: page.content,
+      });
       return {
         title: page.title,
-        body: ReactDOMServer.renderToString(content),
+        body: content,
       };
     } catch (err) {
       console.error("PAGE FETCH ERROR", err);

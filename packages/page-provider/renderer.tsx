@@ -1,10 +1,14 @@
 import React from "react";
 
 type RendererProps = {
+  payloadAddress: string;
   nodes: any[];
 };
 
-export default function RenderPayloadDocument({ nodes }: RendererProps) {
+export default function RenderPayloadDocument({
+  payloadAddress,
+  nodes,
+}: RendererProps) {
   const rendered = nodes.map((n) => {
     if (n.text !== undefined) {
       let t = n.text;
@@ -25,7 +29,12 @@ export default function RenderPayloadDocument({ nodes }: RendererProps) {
       }
       return <span>{t}</span>;
     } else if (n.children !== undefined) {
-      const children = <RenderPayloadDocument nodes={n.children} />;
+      const children = (
+        <RenderPayloadDocument
+          payloadAddress={payloadAddress}
+          nodes={n.children}
+        />
+      );
       switch (n.type) {
         case "h1":
           return <h1>{children}</h1>;
@@ -50,7 +59,7 @@ export default function RenderPayloadDocument({ nodes }: RendererProps) {
         case "upload":
           return (
             <img
-              src={n.value.url}
+              src={payloadAddress + n.value.url}
               height={n.value.height}
               width={n.value.width}
             />
@@ -62,7 +71,8 @@ export default function RenderPayloadDocument({ nodes }: RendererProps) {
             case "internal":
               const slug = n?.doc?.value?.slug;
               if (slug === undefined) {
-                throw new Error("undefined slug");
+                console.error("undefined slug", n);
+                return <></>;
               } else {
                 return <a href={`/page/${slug}`}>{children}</a>;
               }
