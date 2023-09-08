@@ -1,5 +1,5 @@
-//import request from "@/components/payload";
-//import PayloadRenderer from "@/components/payloadRenderer";
+import { pageProvider } from "@/backend/providers";
+import { notFound } from "next/navigation";
 
 type SlugPageParams = {
   params: {
@@ -8,6 +8,17 @@ type SlugPageParams = {
 };
 
 export default async function SlugPage({ params }: SlugPageParams) {
+  const page = await pageProvider.getPage(params.slug);
+  if (page === null) {
+    notFound();
+  }
+  return (
+    <div className="max-w-4xl mx-auto">
+      <h1 className="text-center">{page.title}</h1>
+      <hr />
+      <div className="space-y-4">{page.body}</div>
+    </div>
+  );
   /*
   const queryUrl = `/api/pages?where[slug][equals]=${params.slug}`;
   const resp = await request(queryUrl, undefined, "GET");
