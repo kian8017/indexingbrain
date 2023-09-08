@@ -15,14 +15,19 @@ export class PayloadFAQProvider implements FAQProvider {
   }
 
   async getFAQs(): Promise<FAQ[]> {
-    const resp = await this._sendRequest("/api/faq");
-    const rawFaqs = (await resp.json()).docs;
-    return rawFaqs.map((rf: any) => {
-      return {
-        question: rf.question,
-        answer: rf.answer,
-      };
-    });
+    try {
+      const resp = await this._sendRequest("/api/faq");
+      const rawFaqs = (await resp.json()).docs;
+      return rawFaqs.map((rf: any) => {
+        return {
+          question: rf.question,
+          answer: rf.answer,
+        };
+      });
+    } catch (err) {
+      console.error("FAQ FETCH ERROR", err);
+      return [];
+    }
   }
 
   async _sendRequest(partialUrl: string): Promise<Response> {
