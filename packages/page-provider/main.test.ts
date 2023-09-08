@@ -18,4 +18,8 @@ describe("PayloadPageProvider", () => {
     const provider = new PayloadPageProvider(PAYLOAD_ADDRESS);
     await expect(provider.getPage("test-slug2")).resolves.toBeNull();
   });
+  it("should return null when invalid payload_address provided", async () => {
+    const provider = new PayloadPageProvider("http://localhost:3099");
+    await expect(provider.getPage("test-slug")).resolves.toBeNull();
+  });
 });
