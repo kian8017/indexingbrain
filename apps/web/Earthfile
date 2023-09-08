@@ -35,7 +35,9 @@ run:
   ENV HOSTNAME "0.0.0.0"
 
   EXPOSE 3000
-  CMD ["node", "apps/web/server.js"]
+  WORKDIR /app/apps/web
+  COPY docker-entrypoint.sh .
+  CMD [ "/bin/sh", "docker-entrypoint.sh" ]
   SAVE IMAGE ib-web
 
 publish:
