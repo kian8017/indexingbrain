@@ -14,14 +14,16 @@ services:
       - "8080:8080"
 
   web:
-    image: "ib-web"
+    image: "ghcr.io/kian8017/ib-web"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.web-router.rule=Host(`localhost`)"
       - "traefik.http.services.web-service.loadbalancer.server.port=3000"
+    environment:
+      - PAYLOAD_ADDRESS="http://admin.localhost:8081"
 
   cms:
-    image: "ib-cms"
+    image: "ghcr.io/kian8017/ib-cms"
     volumes:
       - "ib_dev_payload_images:/app/apps/cms/data"
     labels:
