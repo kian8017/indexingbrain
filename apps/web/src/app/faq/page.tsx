@@ -1,10 +1,9 @@
 import { faqProvider } from "@/backend/providers";
 
-
 export default async function FAQ() {
   const faqs = await faqProvider.getFAQs();
 
-  const faqElements = faqs.map(f => {
+  const faqElements = faqs.map((f) => {
     return (
       <div key={f.question} className="collapse bg-neutral/80">
         <input type="radio" name="faq" />
@@ -16,7 +15,7 @@ export default async function FAQ() {
         </div>
       </div>
     );
-  })
+  });
 
   return (
     <div className="space-y-2 max-w-4xl mx-auto">
