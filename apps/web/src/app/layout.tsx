@@ -37,7 +37,7 @@ export default function RootLayout({
           <footer className="footer p-5 bg-neutral text-neutral-content">
             <div className="mx-auto">
               <span>
-                Copyright © 2023 - <Logo /> Team
+                Copyright © {new Date().getFullYear()} - <Logo /> Team
               </span>
               <span className="text-xs text-neutral-content/50">
                 version: {version}
